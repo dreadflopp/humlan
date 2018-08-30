@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>var main = require("./js/main.js")</script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <title>Cashier</title>
+</head>
+<body>
+<header>
+    <div>
+        <img src="images/logo.png" alt="[image: humla]" class="logo" />
+        <h1>Humlans Barnmarknad</h1>
+    </div>
+</header>
+<main>
+    <!-- Register -->
+    <section id="register">
+        <div class="card">
+            <form id="transaction">
+                <h3>Lägg till vara</h3>
+                <p>
+                    <label for="seller">Säljare</label>
+                    <input type="number" name="seller" id="seller" tabindex="1">
+                    <span class="invalid-marker hidden">!</span>
+                </p>
+                <p>
+                    <label for="price">Pris &nbsp&nbsp&nbsp&nbsp</label>
+                    <input type="number" name="price" id="price" tabindex="2">
+                    <span class="invalid-marker hidden">!</span>
+                </p>
+                <p>
+                    <label class="container-checkbox">Rabatt %
+                        <input type="checkbox" name="is-discounted" id="is-discounted" class="checkbox-input" tabindex="3">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label for="discount"></label>
+                    <input type="number" name="discount" id="discount" class="inactive" value="50" readOnly>
+                    <span class="invalid-marker hidden">!</span>
+                </p>
+            </form>
+            <div id="add-item-container">
+                <button id="button-add-item" tabindex="4" class="arrow-right-button"><span>OK</span></button>
+            </div>
+            <div id="focus-reset" tabindex="5"></div>
+        </div>
+
+        <!-- Add button -->
+        <div id="add-to-history-container" class="card hidden">
+            <button id="button-add-to-history" class="arrow-right-button"><span>SLUTFÖR KÖP</span></button>
+        </div>
+
+    </section>
+
+    <!-- receipt -->
+    <section>
+        <div id="receipt" class="card receipt">
+            <div class="receipt-edit-area hidden">
+                <div class="edit-area-left">
+                    <button class="hidden receipt-delete-button">RADERA KVITTO</button>
+                </div>
+                <div class="edit-area-right">
+                    <button class="hidden receipt-done-button">KLAR</button>
+                    <button class="receipt-edit-button">ÄNDRA</button>
+                </div>
+            </div>
+            <h3 class="receipt-headline">Kvitto</h3>
+            <p class="receipt-placeholder placeholder">Tillagda varor kommer visas här</p>
+            <div class="sum-container hidden"><span class="receipt-sum-desc">Summa: </span><span class=receipt-sum></span><span class="receipt-sum-desc"> kronor</span></div>
+            <div class="receiptContent"></div>
+        </div>
+    </section>
+
+
+    <!-- History -->
+    <section id="history">
+        <div id="history-list" class="card">
+            <!--
+            <div id="return-button-container" class="edit-area-right">
+                <button id="return-button" class="hidden">Returnera kvitto</button>
+            </div>
+            -->
+            <h3 id="history-list-headline">Alla kvitton</h3>
+            <p id="history-list-placeholder" class="placeholder">Sparade kvitton kommer visas här</p>
+            <form id="receipt-radio-buttons"></form>
+        </div>
+    </section>
+
+    <!-- chosen receipt -->
+    <section>
+        <div id="history-receipt" class="card receipt transparent">
+            <div id="close-button-container" class="edit-area-right">
+                <button id="return-button" class="hidden arrow-left-button"><span>RETURNERA KVITTO</span></button>
+                <button id="close-button">STÄNG</button>
+            </div>
+            <h3 class="receipt-headline">Valt kvitto</h3>
+            <p class="receipt-placeholder placeholder">Tillagda varor kommer visas här</p>
+            <div class="sum-container hidden"><span class="receipt-sum-desc">Summa: </span><span class=receipt-sum></span><span class="receipt-sum-desc"> kronor</span></div>
+            <div class="receiptContent"></div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

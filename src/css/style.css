@@ -1,0 +1,416 @@
+/*******************************************************************************
+ * Projekt, Kurs: DT161G
+ * File: style.css
+ * Desc: Style sheets for Projekt
+ *
+ * Mattias Lindell
+ * mali1624
+ * mali1624@student.miun.se
+ ******************************************************************************/
+/* Reset margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+h3 { margin-bottom: 20px; }
+
+html {
+    margin: auto;
+    font: 13px/1.2 Helvetica, Arial, sans-serif;
+    background: #ECEFF1;
+}
+
+header {
+    padding: 20px;
+    margin-bottom: 30px;
+    background: #455A64;
+    color: #FFFFFF;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+header div {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    margin: auto;
+}
+
+header h1 {
+    display: inline;
+}
+
+
+.logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+}
+
+main {
+    margin: auto;
+    width: 960px;
+    display: flex;
+    flex-direction: row;
+    min-height: 300px;
+}
+
+.card {
+    border-radius: 2px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #FFFFFF;
+    color: #000000;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    min-width: 250px;
+}
+
+input { margin-bottom: 20px; }
+
+input[type=number], input[type=text] {
+    width: 5em;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.invalid-marker {
+    color: red;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+#discount { width: 3em; }
+
+.invalid {  }
+
+#add-item-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* receipt */
+.receipt span { vertical-align: middle }
+.receipt-edit-area {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.edit-area-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#close-button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.item {
+    line-height: 20px;
+    margin-bottom: 7px;
+}
+
+.receiptFirstRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.receiptSecondRow {
+    display: flex;
+    justify-content: space-between;
+    white-space: pre;
+}
+
+.right { font-weight: bold; }
+.placeholder { font-style: italic; }
+.sum-container {
+    font-weight: bold;
+    margin-bottom: 20px;
+
+}
+
+input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid black;
+    outline: none;
+}
+
+input:focus {
+    border-bottom: 1px solid #E91E63;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+button {
+    background: #FFFFFF;
+    color: #E91E63;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    font-size: 12px;
+}
+
+button:active {
+    color: #880E4F;
+}
+
+.arrow-right-button span {
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+    padding-right: 10px;
+}
+
+.arrow-right-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.arrow-right-button:hover span {
+    padding-right: 10px;
+}
+
+.arrow-right-button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.arrow-right-button:focus span {
+    padding-right: 10px;
+}
+
+.arrow-right-button:focus span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.arrow-left-button span {
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+    padding-left: 10px;
+}
+
+.arrow-left-button span:after {
+    content: '\00ab';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: -20px;
+    transition: 0.5s;
+}
+
+.arrow-left-button:hover span {
+    padding-left: 10px;
+}
+
+.arrow-left-button:hover span:after {
+    opacity: 1;
+    left: 0;
+}
+
+.arrow-left-button:focus span {
+    padding-left: 10px;
+}
+
+.arrow-left-button:focus span:after {
+    opacity: 1;
+    left: 0;
+}
+
+.delete-item-button-container {
+    display: inline;
+    margin-right: 5px;
+}
+
+.delete-item-button {
+    padding: 0 2px 0 1px;
+    margin: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+}
+
+#add-to-history-container {
+    min-width: 10px;
+    width: 150px;
+    margin-right: 30px;
+    margin-left: auto;
+    padding-left: 30px;
+}
+
+#history { margin-left: 100px; }
+
+.hidden { display: none; }
+.transparent { opacity: 0 }
+.inactive {
+    border-color: #ccc;
+    color: #ccc;
+}
+input:focus.inactive { border-color: #aaa; }
+
+
+
+/* Radio buttons */
+/* Customize the label (the container) */
+.radio-button-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio-button-container input {
+    position: absolute;
+    opacity: 0;
+}
+
+/* Create a custom radio button */
+.checkmark-radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-button-container:hover input ~ .checkmark-radio {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-button-container input:checked ~ .checkmark-radio {
+    background-color: #E91E63;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark-radio:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-button-container input:checked ~ .checkmark-radio:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-button-container .checkmark-radio:after {
+    top: 4px;
+    left: 4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+}
+
+/* CUSTOM CHECKBOXES */
+/* Customize the label (the container) */
+.container-checkbox {
+    display: inline;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container-checkbox:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* On focus, add a grey background color */
+.checkbox-input:focus ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container-checkbox input:checked ~ .checkmark {
+    background-color: #E91E63;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 2px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* Styles specific for max-width 1599 */
+@media only screen and (max-width: 1599px) {
+    html {
+        font-size: 10px;
+    }
+
+    .card {
+        min-width: 200px;
+    }
+
+    button {
+        font-size: 10px;
+    }
+}
