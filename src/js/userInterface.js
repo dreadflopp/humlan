@@ -1,4 +1,4 @@
-/* eslint-disable no-trailing-spaces,no-underscore-dangle,func-names */
+/* eslint-disable no-trailing-spaces,no-underscore-dangle,func-names,max-len */
 const financial = require('./financial');
 const log = require('./log');
 const Receipt = require('./receipt');
@@ -6,14 +6,103 @@ const Item = require('./item');
 const Register = require('./register');
 const ReceiptStorage = require('./receiptStorage');
 const fs = require('fs');
+const homedir = require('os').homedir();
 
-const filename = 'humlan_sparade_kvitton';
+const path = `${homedir}/documents/Humlans barnmarknad`;
+const filename = `${path}/humlan_sparade_kvitton.json`;
+const backupName = function () {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const date = now.getDate();
+    const hour = now.getHours();
+    const min = now.getMinutes();
+    const sec = now.getSeconds();
+    const sep = '.';
+    const space = '_';
+    const dateString = year + sep + month + sep + date + space + hour + sep + min + sep + sec;
+    return `${path}/humlan_sparade_kvitton_kopia_${dateString}.json`;
+};
 
 const userInterface = (function () {
     const register = new Register();
     const receiptStorage = new ReceiptStorage();
     const purchaseReceipt = new Receipt([], '');
     let historyReceipt = new Receipt([], '');
+
+
+    const createBackup = function () {
+        // Create a backup
+        if (fs.existsSync(filename)) {
+            /*
+            fs.copyFile(filename, backupName(), (err) => {
+                if (err) {
+// eslint-disable-next-line no-alert
+                    alert(`File error: Misslyckades skapa säkerhetskopia till hårddisken(${err.message}) . Starta om programmet och kontrollera att alla kvitton är sparade`);
+                } else {
+                    log('Backup created!');
+                }
+            });
+            */
+            fs.copyFileSync(filename, backupName());
+        } else {
+            log('There is no file to backup');
+        }
+    };
+
+    const writeFile = function () {
+        // save to disk
+        /*
+        fs.writeFile(filename, JSON.stringify(receiptStorage.receipts), (err) => {
+            if (err) {
+// eslint-disable-next-line no-alert
+                alert(`File error: Misslyckades spara kvitton till hårddisken (${err.message}). Starta om programmet och kontrollera att alla kvitton är sparade`);
+            } else {
+                log('File saved!');
+            }
+        });
+        */
+        if (!fs.existsSync(path)) {
+            fs.mkdirSync(path);
+        }
+        fs.writeFileSync(filename, JSON.stringify(receiptStorage.receipts));
+    };
+
+    const readFile = function () {
+        // Load save file
+        if (fs.existsSync(filename)) {
+            log('Found save file!');
+            const receipts = JSON.parse(fs.readFileSync(filename, 'utf8'));
+            receipts.forEach((value) => {
+                const time = value._time;
+                const items = [];
+                value._items.forEach((valueItem) => {
+                    const seller = valueItem._seller;
+                    const price = valueItem._price;
+                    const discount = valueItem._discount;
+                    items.push(new Item(seller, price, discount));
+                });
+                receiptStorage.addReceipt(new Receipt(items, time));
+
+                // add radio button
+                addRadioButton(time);
+            });
+
+            // update
+        }
+    };
+
+    const checkSaveFile = function () {
+        if (fs.existsSync(filename)) {
+            const fileData = fs.readFileSync(filename, 'utf8');
+            const appData = JSON.stringify(receiptStorage.receipts);
+
+            if (fileData.localeCompare(appData) === 0) {
+                return true;
+            }
+        }
+        return false;
+    };
 
     const updateSumNode = function (receiptId) {
         // get receipt-node
@@ -318,7 +407,7 @@ const userInterface = (function () {
         if (register.validateSeller()) {
             removeSellerInvalidMarker();
             return true;
-        } 
+        }
         addSellerInvalidMarker();
         return false;
     };
@@ -327,7 +416,7 @@ const userInterface = (function () {
         if (register.validatePrice()) {
             removePriceInvalidMarker();
             return true;
-        } 
+        }
         addPriceInvalidMarker();
         return false;
     };
@@ -340,10 +429,10 @@ const userInterface = (function () {
             if (register.validateDiscount()) {
                 removeDiscountInvalidMarker();
                 return true;
-            } 
+            }
             addDiscountInvalidMarker();
             return false;
-        } 
+        }
         return true;
     };
 
@@ -523,24 +612,17 @@ const userInterface = (function () {
             }
 
             // Create a backup
-            fs.copyFile(`${filename}.json`, `${filename}_kopia_${dateString}.json`, (err) => {
-                if (err) {
-// eslint-disable-next-line no-alert
-                    alert('File error: Misslyckades skapa säkerhetskopia till hårddisken. Starta om programmet och kontrollera att alla kvitton är sparade');
-                } else {
-                    log('Backup created!');
-                }
-            });
+            createBackup();
 
             // save to disk
-            fs.writeFile(`${filename}.json`, JSON.stringify(receiptStorage.receipts), (err) => {
-                if (err) {
-// eslint-disable-next-line no-alert
-                    alert('File error: Misslyckades spara kvitton till hårddisken. Starta om programmet och kontrollera att alla kvitton är sparade');
-                } else {
-                    log('File saved!');
-                }
-            });
+            writeFile();
+
+            // Check save file
+            if (checkSaveFile()) {
+                log('Save file checked. All is good!');
+            } else {
+                alert('Ett fel har hittats i sparfilen. Innehållet stämmer inte överens med sparade kvitton i programmet. Starta om programmet för att läsa om sparfilen');
+            }
 
             // Clear receipt object
             purchaseReceipt.clear();
@@ -657,25 +739,10 @@ const userInterface = (function () {
             }
 
             // Create a backup
-            const dateString = new Date().toLocaleString('sv-SE');
-            fs.copyFile(`${filename}.json`, `${filename}_kopia_${dateString}.json`, (err) => {
-                if (err) {
-// eslint-disable-next-line no-alert
-                    alert('File error: Misslyckades skapa säkerhetskopia till hårddisken. Starta om programmet och kontrollera att alla kvitton är sparade');
-                } else {
-                    log('Backup created!');
-                }
-            });
+            createBackup();
 
             // save to disk
-            fs.writeFile(`${filename}.json`, JSON.stringify(receiptStorage.receipts), (err) => {
-                if (err) {
-// eslint-disable-next-line no-alert
-                    alert('File error: Misslyckades spara kvitton till hårddisken. Starta om programmet och kontrollera att alla kvitton är sparade');
-                } else {
-                    log('File saved!');
-                }
-            });
+            writeFile();
         } else {
 // eslint-disable-next-line no-alert
             alert('Du måste Slutföra hanteringen av kvittot i kassan innan du returnerar ett kvitto.');
@@ -698,26 +765,7 @@ const userInterface = (function () {
 
     const init = function () {
         // Load save file
-        if (fs.existsSync(`${filename}.json`)) {
-            log('Found save file!');
-            const receipts = JSON.parse(fs.readFileSync(`${filename}.json`, 'utf8'));
-            receipts.forEach((value) => {
-                const time = value._time;
-                const items = [];
-                value._items.forEach((valueItem) => {
-                    const seller = valueItem._seller;
-                    const price = valueItem._price;
-                    const discount = valueItem._discount;
-                    items.push(new Item(seller, price, discount));
-                });
-                receiptStorage.addReceipt(new Receipt(items, time));
-
-                // add radio button
-                addRadioButton(time);
-            });
-
-            // update
-        }
+        readFile();
 
         // add event listeners
         document.getElementById('button-add-item').addEventListener('click', addItemButtonHandler, false);
